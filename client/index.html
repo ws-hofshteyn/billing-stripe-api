@@ -1,22 +1,31 @@
+<!DOCTYPE html>
 <html>
-	 <body  id="app" data-custom-background data-off-canvas-nav class="nav-min"><!-- -->
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="app/css/main.css">
+        <link rel="stylesheet" type="text/css" href="app/css/app.css">
+    </head>
 
-        <div data-ng-controller="AppCtrl" >
-            <div data-ng-switch-when="false"
-                 data-ng-cloak>
+    <body  id="app" data-custom-background data-off-canvas-nav class="nav-min">
+        
+        <div data-ng-app="app.billing">
+            <!-- <div data-ng-switch-when="false"
+                    data-ng-cloak>
                 <section data-ng-include=" 'app/layout/header.html' "
-                     id="header" class="top-header"></section>
+                        id="header" class="top-header"></section>
                 <aside data-ng-include=" 'app/layout/nav.html' "
-                     id="nav-container"></aside>
-            </div>
+                        id="nav-container"></aside>
+            </div> -->
 
-            <div class="view-container ">
-                <section data-ng-view id="content" class="animate-fade-up scrolldiv"></section>
+            <div class="view-container">
+                <section ng-view id="content" class="animate-fade-up scrolldiv"></section>
             </div>
         </div>
 
-        <!-- scripts -->
-  
-		<script type="text/javascript" src="billing.js"></script>
-</body>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0/angular.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.0/angular-route.js"></script>
+        <script type="text/javascript" src="app/billing/billing.js"></script>
+    </body>
+
 </html>

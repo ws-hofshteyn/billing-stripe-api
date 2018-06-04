@@ -1,10 +1,10 @@
 'use strict';
 
-angular.module( 'app.billing', [  ] )
+angular.module( 'app.billing', [ 'ngRoute' ] )
 .config(['$routeProvider',  function( $routeProvider ) {
-
   $routeProvider
-  .when('/billing', {templateUrl: 'app/billing/billing.html', controller: 'BillingCtrl', authenticate:true})
+  .when('/billing', { templateUrl: 'app/billing/billing.html', controller: 'BillingCtrl', authenticate: true})
+  .otherwise({ redirectTo: '/billing' });
  
 }])
 .factory('BillingServices', function($resource) {
@@ -59,7 +59,7 @@ angular.module( 'app.billing', [  ] )
 	);
 })
 .controller('BillingCtrl', ['BillingServices', '$scope', function(BillingServices, $scope) {
-    
+    console.log('123');
     $scope.billingInfo = BillingServices.getInfo();
     $scope.listAllCustomers = BillingServices.listAllCustomers();
 
