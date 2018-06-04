@@ -1,0 +1,22 @@
+<html>
+	 <body  id="app" data-custom-background data-off-canvas-nav class="nav-min"><!-- -->
+
+        <div data-ng-controller="AppCtrl" >
+            <div data-ng-switch-when="false"
+                 data-ng-cloak>
+                <section data-ng-include=" 'app/layout/header.html' "
+                     id="header" class="top-header"></section>
+                <aside data-ng-include=" 'app/layout/nav.html' "
+                     id="nav-container"></aside>
+            </div>
+
+            <div class="view-container ">
+                <section data-ng-view id="content" class="animate-fade-up scrolldiv"></section>
+            </div>
+        </div>
+
+        <!-- scripts -->
+  
+		<script type="text/javascript" src="billing.js"></script>
+</body>
+</html>
