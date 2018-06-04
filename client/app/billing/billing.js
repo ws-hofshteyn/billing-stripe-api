@@ -1,13 +1,13 @@
 'use strict';
 
-angular.module( 'app.billing', [ 'ngRoute' ] )
+angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
 .config(['$routeProvider',  function( $routeProvider ) {
   $routeProvider
   .when('/billing', { templateUrl: 'app/billing/billing.html', controller: 'BillingCtrl', authenticate: true})
   .otherwise({ redirectTo: '/billing' });
  
 }])
-.factory('BillingServices', function($resource) {
+.factory('BillingServices', [ '$resource', function($resource) {
 	return $resource('/api/billing/:cmd/:id/:cmd2',
 		{
 			cmd: "@cmd"
@@ -57,7 +57,7 @@ angular.module( 'app.billing', [ 'ngRoute' ] )
 			},
 		}
 	);
-})
+}])
 .controller('BillingCtrl', ['BillingServices', '$scope', function(BillingServices, $scope) {
     console.log('123');
     $scope.billingInfo = BillingServices.getInfo();
