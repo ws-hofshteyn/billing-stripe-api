@@ -25,9 +25,13 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 
 		if (localStorage.getItem('customer_id') && localStorage.getItem('default_source')) {
 			
-			BillingServices.getInfo({id: localStorage.getItem('customer_id')}).$promise.then(function (customer) {
-				console.log('customer', customer);
-				$scope.customer = customer;
+			BillingServices.getInfo({id: localStorage.getItem('customer_id')}).$promise.then(function (data) {
+				if (data.message && data.message === 'none') {
+					$scope.customer = null;
+				} else {
+					console.log('customer', data);
+					$scope.customer = data;
+				}
 				$scope.showView = true;
 			})
 		} else {
@@ -52,9 +56,6 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 	$scope.removeCard = function () {
 		$scope.runProcess = true;
 		BillingServices.removeCard({id: $scope.customer.id, cmd2: $scope.customer.sources.data[0].id}).$promise.then(function (data) {
-			console.log('data', data);
-			localStorage.setItem('customer_id', '');
-			localStorage.setItem('default_source', '');
 			$route.reload();
 		})
 	}

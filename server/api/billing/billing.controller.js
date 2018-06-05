@@ -1,16 +1,17 @@
 //
 
-// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere.
-// TODO: get the customer code (customerId) from the current accounts collection everywhere
+// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere. - done
+// TODO: get the customer code (customerId) from the current accounts collection everywhere - done
+var config = require('./../../config/environment');
+var stripe = require('stripe')(config.stripe_key);
+
+var AccountSchema = require('./../account/account.model');
 
 exports.updateCard = function ( req, res ){
 	
-	console.log('\nreq.body\n', req.body);
-	
 	var customer = req.body;
-	var stripe = require("stripe")(
-		"sk_test_cY03qigypQzbZVaJGbw9n3TO"
-	);
+
+	console.log('\n req.body \n', req.body);
 	
 	stripe.customers.updateCard(
 		customer.id,
@@ -18,7 +19,7 @@ exports.updateCard = function ( req, res ){
 		{
 			exp_year		: customer.sources.data[0].exp_year,
 			exp_month		: customer.sources.data[0].exp_month,
-			// email			: customer.email,
+			email			: customer.email,
 			metadata		: {
 				name			: customer.metadata.name,
 				phone			: customer.metadata.phone,
@@ -27,10 +28,9 @@ exports.updateCard = function ( req, res ){
 				address_country	: customer.metadata.address_country,
 			}
 		},
-		function(err, card) {
-			if (err) console.log('err', err);
-			console.log('customer', customer)
-			res.status(200).send(card);
+		function(err, customer) {
+			if (err) res.status(400).send(err);
+			else res.status(200).send(customer);
 		}
 	);
 
@@ -40,28 +40,32 @@ exports.getSingleCustomer = function ( req, res ) {
 	// body...
 	// var user = req.user; // the user.accountId is the id of the account where we store the stripe customer id
 	// //
-	var stripe = require("stripe")(
-	    "sk_test_cY03qigypQzbZVaJGbw9n3TO"
-	);
 
-	stripe.customers.retrieve(
-	    req.params.id,
-	    function(err, customer) {
-			if (err) console.log('err', err);
-			console.log('customer', customer)
-			res.status(200).send(customer);
-	    }
-	);
+	// console.log('req.user', req.user);
+
+	AccountSchema.find({ name : 'Simba' }, function (err, user) {
+		if (!err && user[0].billing.accountId) {
+			stripe.customers.retrieve(
+				user[0].billing.accountId,
+				function(_err, customer) {
+					if (_err) res.status(400).send(_err);
+					res.status(200).send(customer);
+				}
+			);
+		} else if (!err && !user[0].billing.accountId) {
+			res.status(200).send({message: 'none'}); 
+		} else {
+			res.status(400).send(err);
+		}
+	})
+
 };
 
 
 exports.createTokenAndCustomerWithCard = function( req, res ) {
 	// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere.
 
-	var stripe = require('stripe')('sk_test_cY03qigypQzbZVaJGbw9n3TO');
 	var card = req.body;
-
-	console.log('\ncard', card);
 
 	stripe.tokens.create({
 	    card: {
@@ -82,30 +86,35 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 				address_zip: card.source.address_zip
 			}
 	    }, function(err, customer) {
-			if (err) console.log('error:', err);
-			// console.log('customer', customer);
-			res.status(201).send(customer);
+			if (err) res.status(400).send(err);
+			else {
+				AccountSchema.findOneAndUpdate({name: 'Simba'}, { $set: {'billing.accountId' : customer.id } }, { new: true }, function (_err, user) {
+					if (_err) console.log('Error:', _err);
+					else res.status(201).send(customer);
+				});
+			}
 	    });
 	});
 };
 
 exports.removeCard = function( req, res ) {
-	console.log('req.params', req.params);
-	var stripe = require("stripe")(
-		"sk_test_cY03qigypQzbZVaJGbw9n3TO"
-	);
 
 	stripe.customers.deleteCard(
 		req.params.id,
 		req.params.source,
 		function(err, confirmation) {
-			console.log(confirmation)
-			res.sendStatus(200);
+			if (err) res.status(400).send(err);
+			else {
+				AccountSchema.findOneAndUpdate({name: 'Simba'}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
+					if (_err) res.status(400).send(_err);
+					else res.sendStatus(200);
+				});
+			}
 		}
 	);
 };
 exports.listAllCustomers = function( req, res ) {
-	var stripe = require('stripe')('sk_test_cY03qigypQzbZVaJGbw9n3TO');
+	
 	stripe.customers.list(
 		{ limit: 3 },
 		function(err, customers) {
@@ -113,3 +122,37 @@ exports.listAllCustomers = function( req, res ) {
 		}
 	);
 };
+
+exports.createSubscription = function (req, res) {
+	
+
+	stripe.subscriptions.create({
+		customer: req.params.id,
+		items: [
+		  {
+			plan: "",
+		  },
+		]
+	  }, function(err, subscription) {
+		}
+	  );
+}
+
+function createDefaultAcc () {
+	AccountSchema.find({ name : 'Simba' }, function (err, user) {
+		if (err) {
+			console.log('err', err);
+		} if (user && !user.length) {
+
+			AccountSchema.create({ name : 'Simba' }, function (error, created_user) {
+				if (error) console.log('error', error);
+				else console.log('Default User created');
+			})
+			
+		} else if (user && !user.length) {
+			return;
+		}
+	})
+}
+
+createDefaultAcc();
