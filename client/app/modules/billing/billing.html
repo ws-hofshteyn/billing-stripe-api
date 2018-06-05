@@ -177,10 +177,6 @@
                             <label class="col-md-3">Description</label>
                             <p class="col-md-9">{{ customer.description }}</p>
                         </div>
-                        <div class="row">
-                            <label class="col-md-3">Email</label>
-                            <p class="col-md-9">{{ customer.email }}</p>
-                        </div>
                     </div>
                     <div class="row form-group">
                         <label for="cardMonth" class="col-md-3">
@@ -219,6 +215,19 @@
                                     ng-model="customer.metadata.name" 
                                     class="form-control"
                                     placeholder="John Doe">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="email" class="col-md-3">
+                            Email
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                                    id="email" 
+                                    name="cardUpdateForm.email"  
+                                    ng-model="customer.email" 
+                                    class="form-control"
+                                    placeholder="test@test.com">
                         </div>
                     </div>
                     <div class="row form-group">

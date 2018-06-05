@@ -18,14 +18,6 @@ exports.updateCard = function ( req, res ){
 		{
 			exp_year		: req.body.sources.data[0].exp_year,
 			exp_month		: req.body.sources.data[0].exp_month,
-			// email			: customer.email,
-			// metadata		: {
-			// 	name			: customer.metadata.name,
-			// 	phone			: customer.metadata.phone,
-			// 	address_zip		: customer.metadata.address_zip,
-			// 	address_city	: customer.metadata.address_city,
-			// 	address_country	: customer.metadata.address_country,
-			// }
 		},
 		function(err, card) {
 			if (err) {
@@ -51,17 +43,6 @@ exports.updateCard = function ( req, res ){
 						}
 					}
 				)
-				// stripe.customers.retrieve(
-				// 	customer.id,
-				// 	function(_err, customer) {
-				// 		if (_err) {
-				// 			console.log('_err', _err);
-				// 			res.status(400).send({message: _err.message})
-				// 		} else {
-				// 			res.status(200).send(customer);
-				// 		}
-				// 	}
-				// );
 			}
 		}
 	);
