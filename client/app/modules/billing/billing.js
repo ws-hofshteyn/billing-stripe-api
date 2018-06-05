@@ -6,20 +6,20 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 	$scope.runProcess = false;
 	
 	//test 
-    $scope.card = {
-        cardNumber  : '4242424242424242',
-        cardMonth   : '12',
-        cardYear    : '2020',
-		cardCVC     : '123',
-		name		: 'John Doe',
-		email		: 'test@test.com',
-		phone		: '+1-541-754-3010',
-		source	 	: {
-			address_country: "USA",
-			address_city: "New-York",
-			address_zip: "10001"
-		}
-	};
+    // $scope.card = {
+    //     cardNumber  : '4242424242424242',
+    //     cardMonth   : '12',
+    //     cardYear    : '2020',
+	// 	cardCVC     : '123',
+	// 	name		: 'John Doe',
+	// 	email		: 'test@test.com',
+	// 	phone		: '+1-541-754-3010',
+	// 	source	 	: {
+	// 		address_country: "USA",
+	// 		address_city: "New-York",
+	// 		address_zip: "10001"
+	// 	}
+	// };
 	
 	function activate() {
 
