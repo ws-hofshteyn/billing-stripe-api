@@ -17,7 +17,6 @@
 
 		app.use(express.static(__dirname + '/client'));
 		app.use(bodyParser.json());
-		// app.set('views', __dirname + '/client');
 
 		require('./server/routes')(app);
 		var server = require('http').createServer(app);

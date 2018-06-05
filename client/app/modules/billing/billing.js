@@ -23,20 +23,15 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 	
 	function activate() {
 
-		if (localStorage.getItem('customer_id') && localStorage.getItem('default_source')) {
-			
-			BillingServices.getInfo({id: localStorage.getItem('customer_id')}).$promise.then(function (data) {
-				if (data.message && data.message === 'none') {
-					$scope.customer = null;
-				} else {
-					console.log('customer', data);
-					$scope.customer = data;
-				}
-				$scope.showView = true;
-			})
-		} else {
+		BillingServices.getInfo().$promise.then(function (data) {
+			if (data.message && data.message === 'none') {
+				$scope.customer = null;
+			} else {
+				console.log('customer', data);
+				$scope.customer = data;
+			}
 			$scope.showView = true;
-		}
+		})
 	}
 
 	activate();
@@ -45,9 +40,6 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 		
 		$scope.runProcess = true;
 		BillingServices.createBillingInfo($scope.card).$promise.then(function (data) {
-			console.log('data', data);
-			localStorage.setItem('customer_id', data.id);
-			localStorage.setItem('default_source', data.default_source);
 			$route.reload();
 		})
 	
@@ -62,6 +54,7 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 
 	$scope.updateCard = function () {
 		$scope.runProcess = true;
+		console.log('$scope.customer', $scope.customer);
 		BillingServices.updateCard($scope.customer).$promise.then(function(customer) {
 			console.log('customer', customer);
 			$scope.customer = customer;

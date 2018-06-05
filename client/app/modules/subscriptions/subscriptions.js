@@ -10,7 +10,7 @@ app.controller('SubscriptionsCtrl', ['$scope', '$route', 'BillingServices', func
 
 		if (localStorage.getItem('customer_id') && localStorage.getItem('default_source')) {
 			
-			BillingServices.getInfo({id: localStorage.getItem('customer_id')}).$promise.then(function (customer) {
+			BillingServices.getInfo().$promise.then(function (customer) {
 				console.log('customer', customer);
 				$scope.customer = customer;
 				$scope.showView = true;

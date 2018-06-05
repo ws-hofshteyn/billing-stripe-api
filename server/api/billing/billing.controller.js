@@ -9,28 +9,60 @@ var AccountSchema = require('./../account/account.model');
 
 exports.updateCard = function ( req, res ){
 	
-	var customer = req.body;
 
 	console.log('\n req.body \n', req.body);
 	
 	stripe.customers.updateCard(
-		customer.id,
-		customer.sources.data[0].id,
+		req.body.id,
+		req.body.sources.data[0].id,
 		{
-			exp_year		: customer.sources.data[0].exp_year,
-			exp_month		: customer.sources.data[0].exp_month,
-			email			: customer.email,
-			metadata		: {
-				name			: customer.metadata.name,
-				phone			: customer.metadata.phone,
-				address_zip		: customer.metadata.address_zip,
-				address_city	: customer.metadata.address_city,
-				address_country	: customer.metadata.address_country,
-			}
+			exp_year		: req.body.sources.data[0].exp_year,
+			exp_month		: req.body.sources.data[0].exp_month,
+			// email			: customer.email,
+			// metadata		: {
+			// 	name			: customer.metadata.name,
+			// 	phone			: customer.metadata.phone,
+			// 	address_zip		: customer.metadata.address_zip,
+			// 	address_city	: customer.metadata.address_city,
+			// 	address_country	: customer.metadata.address_country,
+			// }
 		},
-		function(err, customer) {
-			if (err) res.status(400).send(err);
-			else res.status(200).send(customer);
+		function(err, card) {
+			if (err) {
+				console.log('err', err);
+				res.status(400).send({mesasge: err.message});
+			} else {
+				stripe.customers.update(
+					req.body.id, {
+						email			: req.body.email,
+						metadata		: {
+							name			: req.body.metadata.name,
+							phone			: req.body.metadata.phone,
+							address_zip		: req.body.metadata.address_zip,
+							address_city	: req.body.metadata.address_city,
+							address_country	: req.body.metadata.address_country,
+						}
+					}, function(_err, customer) {
+						if (_err) {
+							console.log('_err', _err);
+							res.status(400).send({message: _err.message})
+						} else {
+							res.status(200).send(customer);
+						}
+					}
+				)
+				// stripe.customers.retrieve(
+				// 	customer.id,
+				// 	function(_err, customer) {
+				// 		if (_err) {
+				// 			console.log('_err', _err);
+				// 			res.status(400).send({message: _err.message})
+				// 		} else {
+				// 			res.status(200).send(customer);
+				// 		}
+				// 	}
+				// );
+			}
 		}
 	);
 
@@ -41,26 +73,26 @@ exports.getSingleCustomer = function ( req, res ) {
 	// var user = req.user; // the user.accountId is the id of the account where we store the stripe customer id
 	// //
 
-	// console.log('req.user', req.user);
+	console.log('req.user', req.user);
 
 	AccountSchema.find({ name : 'Simba' }, function (err, user) {
+
 		if (!err && user[0].billing.accountId) {
 			stripe.customers.retrieve(
 				user[0].billing.accountId,
 				function(_err, customer) {
-					if (_err) res.status(400).send(_err);
+					if (_err) res.status(400).send({message: _err.message});
 					res.status(200).send(customer);
 				}
 			);
 		} else if (!err && !user[0].billing.accountId) {
 			res.status(200).send({message: 'none'}); 
 		} else {
-			res.status(400).send(err);
+			res.status(400).send({message: err.message});
 		}
 	})
 
 };
-
 
 exports.createTokenAndCustomerWithCard = function( req, res ) {
 	// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere.
@@ -107,7 +139,7 @@ exports.removeCard = function( req, res ) {
 			else {
 				AccountSchema.findOneAndUpdate({name: 'Simba'}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
 					if (_err) res.status(400).send(_err);
-					else res.sendStatus(200);
+					else res.status(200).send({message: 'done'});
 				});
 			}
 		}
