@@ -1,5 +1,9 @@
 //
-exports.updateCard = function ( req, res ) {
+
+// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere.
+// TODO: get the customer code (customerId) from the current accounts collection everywhere
+
+exports.updateCard = function ( req, res ){
 	
 	console.log('req.body', req.body);
 	
@@ -49,6 +53,7 @@ exports.getSingleCustomer = function ( req, res ) {
 
 
 exports.createTokenAndCustomerWithCard = function( req, res ) {
+	// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere.
 
 	var stripe = require('stripe')('sk_test_cY03qigypQzbZVaJGbw9n3TO');
 	var card = req.body;
