@@ -5,7 +5,7 @@
 
 exports.updateCard = function ( req, res ){
 	
-	console.log('req.body', req.body);
+	console.log('\nreq.body\n', req.body);
 	
 	var customer = req.body;
 	var stripe = require("stripe")(
@@ -16,13 +16,16 @@ exports.updateCard = function ( req, res ){
 		customer.id,
 		customer.sources.data[0].id,
 		{
-			name			: customer.sources.data[0].name,
 			exp_year		: customer.sources.data[0].exp_year,
 			exp_month		: customer.sources.data[0].exp_month,
-			address_zip		: customer.sources.data[0].address_zip,
-			address_zip		: customer.sources.data[0].address_zip,
-			address_city	: customer.sources.data[0].address_city,
-			address_country	: customer.sources.data[0].address_country,
+			// email			: customer.email,
+			metadata		: {
+				name			: customer.metadata.name,
+				phone			: customer.metadata.phone,
+				address_zip		: customer.metadata.address_zip,
+				address_city	: customer.metadata.address_city,
+				address_country	: customer.metadata.address_country,
+			}
 		},
 		function(err, card) {
 			if (err) console.log('err', err);
@@ -58,19 +61,29 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 	var stripe = require('stripe')('sk_test_cY03qigypQzbZVaJGbw9n3TO');
 	var card = req.body;
 
+	console.log('\ncard', card);
+
 	stripe.tokens.create({
 	    card: {
-	        "number"		: card.cardNumber,
-	        "exp_month"		: card.cardMonth,
-	        "exp_year"		: card.cardYear,
-			"cvc"			: card.cardCVC
+	        number			: card.cardNumber,
+	        exp_month		: card.cardMonth,
+	        exp_year		: card.cardYear,
+			cvc				: card.cardCVC,
 	    }
 	}, function(err, token) {
 	    stripe.customers.create({
-	        description: card.description,
-	        source: token.id // obtained with Stripe.js
+			source: token.id, // obtained with Stripe.js
+			email: card.email,
+			metadata: {
+				phone: card.phone,
+				name: card.name,
+				address_country: card.source.address_country,
+				address_city: card.source.address_city,
+				address_zip: card.source.address_zip
+			}
 	    }, function(err, customer) {
-			console.log('customer', customer);
+			if (err) console.log('error:', err);
+			// console.log('customer', customer);
 			res.status(201).send(customer);
 	    });
 	});

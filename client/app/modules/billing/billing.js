@@ -1,90 +1,24 @@
 'use strict';
 
-// var app = angular.module('StripeApp', [ 'ngResource' ] );
-// app.config(['$routeProvider',  function( $routeProvider ) {
-    
-//     $routeProvider
-//         .when('/billing', { 
-//             templateUrl: 'app/modules/billing/billing.html', 
-//             controller: 'BillingCtrl', 
-//             // authenticate: true
-//         })
-//         .when('/subscriptions', {  
-//             templateUrl: 'app/modules/subscriptions/subscriptions.html', 
-//             controller: 'SubscriptionsCtrl', 
-//             // authenticate: true
-//         })
-//         .when('/payment', { 
-//             templateUrl: 'app/modules/payment/payment.html', 
-//             controller: 'PaymentCtrl', 
-//             // authenticate: true
-//         })
-//         .otherwise({ redirectTo: '/billing' });
- 
-// }])
-// app.factory('BillingServices', ['$resource', function ($resource) {
-// 	return $resource('/api/billing/:cmd/:id/:cmd2',
-// 		{
-// 			cmd: "@cmd"
-// 		},
-// 		{
-// 			getInfo : {
-// 				method: "GET",
-// 				params: {
-// 					cmd: "get-info"
-// 				},
-// 				cache: false,
-// 				isArray: false
-// 			},
-// 			createBillingInfo : {
-// 				method: "POST",
-// 				params: {
-// 					cmd: "create-billing-info"
-// 				},
-// 				cache: false,
-// 				isArray: false,
-// 				stripTrailingSlashes: false
-// 			},
-// 			updateCard : {
-// 				method: "PUT",
-// 				params: {
-// 					cmd: "update-card"
-// 				},
-// 				cache: false,
-// 				isArray: false,
-// 				stripTrailingSlashes: false
-// 			},
-// 			removeCard : {
-// 				method: "DELETE",
-// 				params: {
-// 					cmd: "remove-card"
-// 				},
-// 				cache: false,
-// 				isArray: false
-// 			},
-// 			listAllCustomers : {
-// 				method: "GET",
-// 				params: {
-// 					cmd: "list-all-customers"
-// 				},
-// 				cache: false,
-// 				isArray: false
-// 			},
-// 		}
-// 	);
-// }])
-// angular.module('StripeApp', [])
 app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(BillingServices, $scope, $route) {
 
 	$scope.showView = false;
-	$scope.runProcess = false
-    //test 
+	$scope.runProcess = false;
+	
+	//test 
     $scope.card = {
         cardNumber  : '4242424242424242',
         cardMonth   : '12',
         cardYear    : '2020',
 		cardCVC     : '123',
-		description : ''
+		name		: 'John Doe',
+		email		: 'test@test.com',
+		phone		: '+1-541-754-3010',
+		source	 	: {
+			address_country: "USA",
+			address_city: "New-York",
+			address_zip: "10001"
+		}
 	};
 	
 	function activate() {
@@ -127,8 +61,10 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 
 	$scope.updateCard = function () {
 		$scope.runProcess = true;
-		BillingServices.updateCard($scope.customer).$promise.then(function(data) {
-			$route.reload();
+		BillingServices.updateCard($scope.customer).$promise.then(function(customer) {
+			console.log('customer', customer);
+			$scope.customer = customer;
+			$scope.runProcess = false;
 		})
 	}
     // $scope.billingInfo = BillingServices.getInfo();

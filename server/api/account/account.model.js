@@ -9,7 +9,6 @@ var AccountSchema = new Schema({
 	billing: {
 		provider: {type: String, enum: ['stripe'], default: 'stripe'},
 		accountId: {type: String}
-		
 	},
 	
 });
