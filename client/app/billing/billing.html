@@ -100,19 +100,6 @@
                         autocomplete="off"
                         ng-submit="updateCard()">
                     <div class="form-group">
-                        <div class="row form-group">
-                            <label for="cusName" class="col-md-3">
-                                Name
-                            </label>
-                            <div class="col-md-5">
-                                <input type="text" 
-                                id="cusName" 
-                                name="cardUpdateForm.custName" 
-                                ng-model="customer.sources.data[0].name" 
-                                class="form-control" 
-                                placeholder="John Doe">
-                            </div>
-                        </div>
                         <div class="row">
                             <label class="col-md-3">Card number</label>
                             <p class="col-md-9">**** **** **** {{customer.sources.data[0].last4}}</p>
@@ -124,6 +111,19 @@
                         <div class="row" ng-if="customer.description">
                             <label class="col-md-3">Description</label>
                             <p class="col-md-9">{{ customer.description }}</p>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="cusName" class="col-md-3">
+                            Cardholder name
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                            id="cusName" 
+                            name="cardUpdateForm.custName" 
+                            ng-model="customer.sources.data[0].name" 
+                            class="form-control" 
+                            placeholder="John Doe">
                         </div>
                     </div>
                     <div class="row form-group">
