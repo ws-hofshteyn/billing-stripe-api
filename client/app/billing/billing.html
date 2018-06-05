@@ -66,6 +66,21 @@
                                 placeholder="123">
                         </div>
                     </div>
+                    <div class="row form-group">
+                        <label for="cardDescription" class="col-md-3">
+                            Description
+                        </label>
+                        <div class="col-md-5">
+                            <textarea
+                                    id="cardDescription" 
+                                    name="cardForm.description" 
+                                    ng-model="card.description" 
+                                    class="form-control" 
+                                    rows="3"
+                                    >
+                            </textarea>
+                        </div>
+                    </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-5 col-md-offset-4">
@@ -79,11 +94,24 @@
                     <strong>Card details</strong>
                 </div>
     
-                <div class="panel-body">
+                <form class="panel-body" 
+                        name="cardUpdateForm"
+                        novalidate
+                        autocomplete="off"
+                        ng-submit="updateCard()">
                     <div class="form-group">
-                        <div class="row">
-                            <label class="col-md-3">Description</label>
-                            <p class="col-md-9">{{ customer.description }}</p>
+                        <div class="row form-group">
+                            <label for="cusName" class="col-md-3">
+                                Name
+                            </label>
+                            <div class="col-md-5">
+                                <input type="text" 
+                                id="cusName" 
+                                name="cardUpdateForm.custName" 
+                                ng-model="customer.sources.data[0].name" 
+                                class="form-control" 
+                                placeholder="John Doe">
+                            </div>
                         </div>
                         <div class="row">
                             <label class="col-md-3">Card number</label>
@@ -93,18 +121,89 @@
                             <label class="col-md-3">Brand</label>
                             <p class="col-md-9">{{ customer.sources.data[0].brand }}</p>
                         </div>
-                        <div class="row">
-                            <label class="col-md-3">Expiration data</label>
-                            <p class="col-md-9">{{customer.sources.data[0].exp_month}} / {{customer.sources.data[0].exp_year}}</p>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-5 col-md-offset-4">
-                                <button type="button" class="btn btn-danger" ng-disabled="runProcess" ng-click="removeCard()">Remove card</button>
-                            </div>
+                        <div class="row" ng-if="customer.description">
+                            <label class="col-md-3">Description</label>
+                            <p class="col-md-9">{{ customer.description }}</p>
                         </div>
                     </div>
-                </div>
+                    <div class="row form-group">
+                        <label for="cardMonth" class="col-md-3">
+                            Expiration month
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                                    id="cardMonth" 
+                                    name="cardUpdateForm.cardMonth"  
+                                    ng-model="customer.sources.data[0].exp_month" 
+                                    class="form-control"
+                                    placeholder="12">
+                        </div>
+                        <!-- <label class="col-md-3">Expiration data</label>
+                        <p class="col-md-9">{{customer.sources.data[0].exp_month}} / {{customer.sources.data[0].exp_year}}</p> -->
+                    </div>
+                    <div class="row form-group">
+                        <label for="cardYear" class="col-md-3">
+                            Expiration year
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                                    id="cardYear" 
+                                    name="cardUpdateForm.cardYear"  
+                                    ng-model="customer.sources.data[0].exp_year" 
+                                    class="form-control"
+                                    placeholder="2020">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="cardCountry" class="col-md-3">
+                            Address country
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                                    id="cardCountry" 
+                                    name="cardUpdateForm.country"  
+                                    ng-model="customer.sources.data[0].address_country" 
+                                    class="form-control"
+                                    placeholder="USA">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="cardCity" class="col-md-3">
+                            Address city
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                                    id="cardCity" 
+                                    name="cardUpdateForm.cardYear"  
+                                    ng-model="customer.sources.data[0].address_city" 
+                                    class="form-control"
+                                    placeholder="New-York">
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label for="cardZip" class="col-md-3">
+                            ZIP or postal code
+                        </label>
+                        <div class="col-md-5">
+                            <input type="text" 
+                                    id="cardZip" 
+                                    name="cardUpdateForm.cardYear"  
+                                    ng-model="customer.sources.data[0].address_zip" 
+                                    class="form-control"
+                                    placeholder="10001">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-2">
+                            <button type="submit" class="btn btn-primary" ng-disabled="runProcess">Update card</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-danger" ng-disabled="runProcess" ng-click="removeCard()">Remove card</button>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </form>
             </section>
         </div>
     </div>

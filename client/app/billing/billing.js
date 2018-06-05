@@ -67,7 +67,8 @@ angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
         cardNumber  : '4242424242424242',
         cardMonth   : '12',
         cardYear    : '2020',
-        cardCVC     : '123'
+		cardCVC     : '123',
+		description : ''
 	};
 	
 	function activate() {
@@ -104,6 +105,13 @@ angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
 			console.log('data', data);
 			localStorage.setItem('customer_id', '');
 			localStorage.setItem('default_source', '');
+			$route.reload();
+		})
+	}
+
+	$scope.updateCard = function () {
+		$scope.runProcess = true;
+		BillingServices.updateCard($scope.customer).$promise.then(function(data) {
 			$route.reload();
 		})
 	}

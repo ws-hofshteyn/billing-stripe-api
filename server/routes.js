@@ -15,6 +15,8 @@ module.exports = function(app) {
   
   app.get('/api/billing/get-info/:id',                BillingController.getSingleCustomer);
   
+  app.put('/api/billing/update-card',     BillingController.updateCard);
+  
   app.delete('/api/billing/remove-card/:id/:source',  BillingController.removeCard);
 
   // app.use('/auth', require('./auth'));

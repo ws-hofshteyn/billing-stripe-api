@@ -1,14 +1,29 @@
 //
 exports.updateCard = function ( req, res ) {
+	
+	console.log('req.body', req.body);
+	
+	var customer = req.body;
 	var stripe = require("stripe")(
 		"sk_test_cY03qigypQzbZVaJGbw9n3TO"
 	);
+	
 	stripe.customers.updateCard(
-		"cus_Cy8KXEEda28TlS",
-		"card_1CYC3gFCOVIakxpdVAhYyCd2",
-		{ name: "Barack Obama" },
+		customer.id,
+		customer.sources.data[0].id,
+		{
+			name			: customer.sources.data[0].name,
+			exp_year		: customer.sources.data[0].exp_year,
+			exp_month		: customer.sources.data[0].exp_month,
+			address_zip		: customer.sources.data[0].address_zip,
+			address_zip		: customer.sources.data[0].address_zip,
+			address_city	: customer.sources.data[0].address_city,
+			address_country	: customer.sources.data[0].address_country,
+		},
 		function(err, card) {
-			console.log(card)
+			if (err) console.log('err', err);
+			console.log('customer', customer)
+			res.status(200).send(card);
 		}
 	);
 
@@ -40,14 +55,14 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 
 	stripe.tokens.create({
 	    card: {
-	        "number"	: card.cardNumber,
-	        "exp_month"	: card.cardMonth,
-	        "exp_year"	: card.cardYear,
-	        "cvc"		: card.cardCVC
+	        "number"		: card.cardNumber,
+	        "exp_month"		: card.cardMonth,
+	        "exp_year"		: card.cardYear,
+			"cvc"			: card.cardCVC
 	    }
 	}, function(err, token) {
 	    stripe.customers.create({
-	        description: 'Customer for alexander.anderson@example.com',
+	        description: card.description,
 	        source: token.id // obtained with Stripe.js
 	    }, function(err, customer) {
 			console.log('customer', customer);
