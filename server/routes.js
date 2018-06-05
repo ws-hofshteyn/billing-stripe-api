@@ -11,7 +11,11 @@ module.exports = function(app) {
 
   // // Insert routes below
   // app.use('/api/billing', require('./api/billing'));
-  app.post('/api/billing/create-billing-info', BillingController.createTokenAndCustomerWithCard);
+  app.post('/api/billing/create-billing-info',        BillingController.createTokenAndCustomerWithCard);
+  
+  app.get('/api/billing/get-info/:id',                BillingController.getSingleCustomer);
+  
+  app.delete('/api/billing/remove-card/:id/:source',  BillingController.removeCard);
 
   // app.use('/auth', require('./auth'));
 

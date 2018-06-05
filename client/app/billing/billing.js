@@ -40,7 +40,7 @@ angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
 				stripTrailingSlashes: false
 			},
 			removeCard : {
-				method: "GET",
+				method: "DELETE",
 				params: {
 					cmd: "remove-card"
 				},
@@ -58,29 +58,55 @@ angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
 		}
 	);
 }])
-.controller('BillingCtrl', ['BillingServices', '$scope', '$http', function(BillingServices, $scope, $http) {
+.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(BillingServices, $scope, $route) {
 
+	$scope.showView = false;
+	$scope.runProcess = false
     //test 
     $scope.card = {
         cardNumber  : '4242424242424242',
         cardMonth   : '12',
         cardYear    : '2020',
         cardCVC     : '123'
-    }
+	};
+	
+	function activate() {
+
+		if (localStorage.getItem('customer_id') && localStorage.getItem('default_source')) {
+			
+			BillingServices.getInfo({id: localStorage.getItem('customer_id')}).$promise.then(function (customer) {
+				console.log('customer', customer);
+				$scope.customer = customer;
+				$scope.showView = true;
+			})
+		} else {
+			$scope.showView = true;
+		}
+	}
+
+	activate();
 
     $scope.addCard = function (form) {
-
+		
+		$scope.runProcess = true;
 		BillingServices.createBillingInfo($scope.card).$promise.then(function (data) {
 			console.log('data', data);
+			localStorage.setItem('customer_id', data.id);
+			localStorage.setItem('default_source', data.default_source);
+			$route.reload();
 		})
-		// $http.post('/api/billing', {msg:'hello word!'})
-		// 	.success(function (data) {
-		// 		console.log('data');
-		// 	})
-		// 	.error(function (err) {
-		// 		console.log('error:', err);
-		// 	})
-    }
+	
+	}
+	
+	$scope.removeCard = function () {
+		$scope.runProcess = true;
+		BillingServices.removeCard({id: $scope.customer.id, cmd2: $scope.customer.sources.data[0].id}).$promise.then(function (data) {
+			console.log('data', data);
+			localStorage.setItem('customer_id', '');
+			localStorage.setItem('default_source', '');
+			$route.reload();
+		})
+	}
     // $scope.billingInfo = BillingServices.getInfo();
     // $scope.listAllCustomers = BillingServices.listAllCustomers();
 

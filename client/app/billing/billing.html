@@ -3,7 +3,7 @@
         <h3>Billing</h3>
         <br>
         <div class="row">
-            <section class="panel panel-default col-md-5" style="padding: 0px;">
+            <section class="panel panel-default col-md-5" style="padding: 0px;" ng-if="!customer && showView">
                 
                 <div class="panel-heading">
                     <strong>Card form</strong>
@@ -68,10 +68,42 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-12">
-                            <button type="submit" class="btn btn-primary">Add card</button>
+                        <div class="col-md-5 col-md-offset-4">
+                            <button type="submit" class="btn btn-primary" ng-disabled="runProcess">Add card</button>
                         </div>
-                    </form>
+                    </div>
+                </form>
+            </section>
+            <section class="panel panel-default col-md-5" style="padding: 0px;" ng-if="customer && showView">
+                <div class="panel-heading">
+                    <strong>Card details</strong>
+                </div>
+    
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-md-3">Description</label>
+                            <p class="col-md-9">{{ customer.description }}</p>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3">Card number</label>
+                            <p class="col-md-9">**** **** **** {{customer.sources.data[0].last4}}</p>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3">Brand</label>
+                            <p class="col-md-9">{{ customer.sources.data[0].brand }}</p>
+                        </div>
+                        <div class="row">
+                            <label class="col-md-3">Expiration data</label>
+                            <p class="col-md-9">{{customer.sources.data[0].exp_month}} / {{customer.sources.data[0].exp_year}}</p>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-5 col-md-offset-4">
+                                <button type="button" class="btn btn-danger" ng-disabled="runProcess" ng-click="removeCard()">Remove card</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
