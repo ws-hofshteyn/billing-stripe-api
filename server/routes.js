@@ -4,12 +4,14 @@
 //var errors = require('./components/errors');
 // var router = express.Router();
 //var auth = require('./auth/auth.service');
+var BillingController = require('./api/billing/billing.controller');
 
 
 module.exports = function(app) {
 
   // // Insert routes below
   // app.use('/api/billing', require('./api/billing'));
+  app.post('/api/billing/create-billing-info', BillingController.createTokenAndCustomerWithCard);
 
   // app.use('/auth', require('./auth'));
 

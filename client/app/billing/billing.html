@@ -9,13 +9,22 @@
                     <strong>Card form</strong>
                 </div>
     
-                <div class="panel-body">
+                <form class="panel-body"
+                        name="cardForm"
+                        ng-submit="addCard(cardForm)"
+                        autocomplete="off"
+                        novalidate>
                     <div class="row form-group">
                         <label for="cardNumber" class="col-md-3">
                             Card number
                         </label>
                         <div class="col-md-5">
-                            <input type="text" id="cardNumber" ng-model="card.number" class="form-control" placeholder="4242 4242 4242 4242">
+                            <input type="text" 
+                                    id="cardNumber" 
+                                    name="cardForm.cardNumber" 
+                                    ng-model="card.number" 
+                                    class="form-control" 
+                                    placeholder="4242 4242 4242 4242">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -23,7 +32,12 @@
                             Expiration month
                         </label>
                         <div class="col-md-5">
-                            <input type="text" id="cardMonth" ng-model="card.expMonth" class="form-control" placeholder="12">
+                            <input type="text" 
+                                    id="cardMonth" 
+                                    name="cardForm.cardMonth"  
+                                    ng-model="card.expMonth" 
+                                    class="form-control"
+                                    placeholder="12">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -31,7 +45,12 @@
                             Expiration year
                         </label>
                         <div class="col-md-5">
-                            <input type="text" id="cardYear" ng-model="card.expYear" class="form-control" placeholder="2020">
+                            <input type="text" 
+                                    id="cardYear"
+                                    name="cardForm.cardYear" 
+                                    ng-model="card.expYear" 
+                                    class="form-control" 
+                                    placeholder="2020">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -39,15 +58,20 @@
                             CVC
                         </label>
                         <div class="col-md-5">
-                            <input type="text" id="cardCVC" ng-model="card.cvc" class="form-control" placeholder="123">
+                            <input type="text" 
+                                id="cardCVC"
+                                name="cardForm.cardCVC"
+                                ng-model="card.cvc" 
+                                class="form-control" 
+                                placeholder="123">
                         </div>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <button class="btn btn-primary">Add card</button>
+                            <button type="submit" class="btn btn-primary">Add card</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </section>
         </div>

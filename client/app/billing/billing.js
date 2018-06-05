@@ -22,7 +22,7 @@ angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
 				isArray: false
 			},
 			createBillingInfo : {
-				method: "PUT",
+				method: "POST",
 				params: {
 					cmd: "create-billing-info"
 				},
@@ -58,9 +58,29 @@ angular.module( 'app.billing', [ 'ngRoute', 'ngResource' ] )
 		}
 	);
 }])
-.controller('BillingCtrl', ['BillingServices', '$scope', function(BillingServices, $scope) {
+.controller('BillingCtrl', ['BillingServices', '$scope', '$http', function(BillingServices, $scope, $http) {
 
-    
+    //test 
+    $scope.card = {
+        cardNumber  : '4242424242424242',
+        cardMonth   : '12',
+        cardYear    : '2020',
+        cardCVC     : '123'
+    }
+
+    $scope.addCard = function (form) {
+
+		BillingServices.createBillingInfo($scope.card).$promise.then(function (data) {
+			console.log('data', data);
+		})
+		// $http.post('/api/billing', {msg:'hello word!'})
+		// 	.success(function (data) {
+		// 		console.log('data');
+		// 	})
+		// 	.error(function (err) {
+		// 		console.log('error:', err);
+		// 	})
+    }
     // $scope.billingInfo = BillingServices.getInfo();
     // $scope.listAllCustomers = BillingServices.listAllCustomers();
 

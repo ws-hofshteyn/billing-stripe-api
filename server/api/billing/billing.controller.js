@@ -1,5 +1,3 @@
-
-
 //
 exports.updateCard = function ( req, res ) {
 	var stripe = require("stripe")(
@@ -34,20 +32,24 @@ exports.getSingleCustomer = function ( req, res ) {
 
 
 exports.createTokenAndCustomerWithCard = function( req, res ) {
+
 	var stripe = require('stripe')('sk_test_cY03qigypQzbZVaJGbw9n3TO');
+	var card = req.body;
+
 	stripe.tokens.create({
 	    card: {
-	        "number": '4242424242424242',
-	        "exp_month": 1,
-	        "exp_year": 2019,
-	        "cvc": '123'
+	        "number": card.cardNumber,
+	        "exp_month": card.cardMonth,
+	        "exp_year": card.cardYear,
+	        "cvc": card.cardCVC
 	    }
 	}, function(err, token) {
 	    stripe.customers.create({
 	        description: 'Customer for alexander.anderson@example.com',
 	        source: token.id // obtained with Stripe.js
 	    }, function(err, customer) {
-	        console.log(customer)
+			console.log('customer', customer);
+			res.status(200).send(customer);
 	    });
 	});
 };

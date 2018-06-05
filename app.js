@@ -2,6 +2,7 @@
 		/**/
 		var express = require('express');
 		// var mongoose = require('mongoose');
+		var bodyParser		= require('body-parser');
 		var config = require('./server/config/environment');
 
 
@@ -15,6 +16,7 @@
 		var app = express();
 
 		app.use(express.static(__dirname + '/client'));
+		app.use(bodyParser.json());
 		// app.set('views', __dirname + '/client');
 
 		require('./server/routes')(app);
