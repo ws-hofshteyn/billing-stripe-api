@@ -9,6 +9,4 @@ app.config(['$routeProvider',  function( $routeProvider ) {
             // controller: 'BillingCtrl', 
             // authenticate: true
         })
-        
- 
 }])
