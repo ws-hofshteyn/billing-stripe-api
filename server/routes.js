@@ -1,7 +1,8 @@
 'use strict';
 
 var express = require('express');
-var controller = require('./api/billing/billing.controller');
+var BillingController = require('./api/billing/billing.controller');
+var SubController = require('./api/subscriptions/subscriptions.controller');
 var router = express.Router();
 var auth = require('./auth/auth.service');
 
@@ -9,25 +10,36 @@ var auth = require('./auth/auth.service');
 
 module.exports = function(app) {
 
+    router.post('/api/billing/create-billing-info',
+            auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
+            BillingController.createTokenAndCustomerWithCard
+    );
+
 	router.put('/api/billing/update-card',
 		  auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
-		  controller.updateCard
-	);
+		  BillingController.updateCard
+    );
+    
 	router.get('/api/billing/get-info',
+        auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
+        BillingController.getSingleCustomer
+    );
+    router.get('/api/billing/list-all-customers',
             auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
-            controller.getSingleCustomer
-	);
+            BillingController.listAllCustomers
+    );
+    router.get('/api/subscriptions/get-subscriptions',
+            auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
+            SubController.getPlans
+    );
+    router.get('/api/subscriptions/subscribe-plan/:id',
+            auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
+            SubController.subscribePlan
+    );
+
 	router.delete('/api/billing/remove-card/:id/:source',
             auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
-            controller.removeCard
-	);
-	router.get('/api/billing/list-all-customers',
-            auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
-            controller.listAllCustomers
-	);
-	router.post('/api/billing/create-billing-info',
-            auth.isAuthenticated(),   // isAuthenticated() will check the auth token and fills the req with the user info in req.user
-            controller.createTokenAndCustomerWithCard
+            BillingController.removeCard
 	);
 
     app.use('/', router);
