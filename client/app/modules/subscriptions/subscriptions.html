@@ -58,7 +58,7 @@
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-5 col-md-offset-4"> 
-                                        <button class="btn btn-primary" ng-if="!customer.subscriptions.data.length" ng-click="subscribePlan(plan.id)">Subscribe</button>
+                                        <button class="btn btn-primary" ng-if="!customer.subscriptions.data.length" ng-click="subscribePlan(plan.id)" ng-disabled="runProcess">Subscribe</button>
                                         <button class="btn btn-primary" ng-if="customer.subscriptions.data.length" ng-disabled="plan.id == customer.subscriptions.data[0].plan.id">Subscribed</button>
                                     </div>
                                 </div>
