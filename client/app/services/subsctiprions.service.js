@@ -22,32 +22,7 @@ app.factory('SubscriptionsServices', ['$resource', function ($resource) {
                 cache: false,
                 isArray: false,
                 stripTrailingSlashes: false
-            },
-            // updateCard : {
-            //     method: "PUT",
-            //     params: {
-            //         cmd: "update-card"
-            //     },
-            //     cache: false,
-            //     isArray: false,
-            //     stripTrailingSlashes: false
-            // },
-            // removeCard : {
-            //     method: "DELETE",
-            //     params: {
-            //         cmd: "remove-card"
-            //     },
-            //     cache: false,
-            //     isArray: false
-            // },
-            // listAllCustomers : {
-            //     method: "GET",
-            //     params: {
-            //         cmd: "list-all-customers"
-            //     },
-            //     cache: false,
-            //     isArray: false
-            // },
+            }
         }
     );
 }]);

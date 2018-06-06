@@ -1,1 +1,59 @@
-<h1>payment</h1>
+<div class="row">
+    <div class="col-md-10 col-md-offset-1">
+        <h3>Payment</h3>
+        <br>
+        <div class="row">
+            <section class="panel panel-default col-md-12" style="padding: 0px;">
+                
+                <div class="panel-heading">
+                    <strong>Payment details</strong>
+                </div>
+
+                <div class="pandel-body" style="padding: 15px;">
+
+                    <div class="row" ng-if="((customer.message && customer.message == 'none') || !customer.subscriptions.data.length) && showView">
+                        <h4 class="text-center">
+                            There are no details yet. 
+                        </h4>
+                    </div>
+
+                    <div ng-if="customer.subscriptions.data.length">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-md-2">Plan</label>
+                                <div class="col-md-3">
+                                    {{ customer.subscriptions.data[0].plan.nickname }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-md-2">Payment source</label>
+                                <div class="col-md-3">
+                                    {{ customer.sources.data[0].brand }} **** {{ customer.sources.data[0].last4 }} 
+                                    {{ customer.sources.data[0].exp_month }} / {{ customer.sources.data[0].exp_year }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-md-2">Next payment due</label>
+                                <div class="col-md-3">
+                                    {{ customer.subscriptions.data[0].current_period_end * 1000 | date:"yyyy-MM-dd" }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-md-2">Amount</label>
+                                <div class="col-md-3">
+                                    ${{ customer.subscriptions.data[0].plan.amount/100 }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

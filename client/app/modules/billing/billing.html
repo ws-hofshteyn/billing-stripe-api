@@ -3,291 +3,306 @@
         <h3>Billing</h3>
         <br>
         <div class="row">
-            <section class="panel panel-default col-md-5" style="padding: 0px;" ng-if="!customer && showView">
+            <section class="panel panel-default col-md-12" style="padding: 0px;" ng-if="!customer">
                 
                 <div class="panel-heading">
                     <strong>Card form</strong>
                 </div>
+                
+                <div class="panel-body">
+
+                    <form name="cardForm"
+                            ng-if="showView"
+                            ng-submit="addCard(cardForm)"
+                            autocomplete="off"
+                            novalidate>
+                        <div class="row">
+                            <div class="col-md-6">
     
-                <form class="panel-body"
-                        name="cardForm"
-                        ng-submit="addCard(cardForm)"
-                        autocomplete="off"
-                        novalidate>
-                    <div class="row form-group">
-                        <label for="cardNumber" class="col-md-3">
-                            Card number
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardNumber" 
-                                    name="cardForm.cardNumber" 
-                                    ng-model="card.cardNumber" 
-                                    class="form-control" 
-                                    placeholder="4242 4242 4242 4242">
+                                <div class="row form-group">
+                                    <label for="cardNumber" class="col-md-3">
+                                        Card number
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="cardNumber" 
+                                                name="cardForm.cardNumber" 
+                                                ng-model="card.cardNumber" 
+                                                class="form-control" 
+                                                placeholder="4242 4242 4242 4242">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="cardMonth" class="col-md-3">
+                                        Expiration month
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="cardMonth" 
+                                                name="cardForm.cardMonth"  
+                                                ng-model="card.cardMonth" 
+                                                class="form-control"
+                                                placeholder="12">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="cardYear" class="col-md-3">
+                                        Expiration year
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="cardYear"
+                                                name="cardForm.cardYear" 
+                                                ng-model="card.cardYear" 
+                                                class="form-control" 
+                                                placeholder="2020">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="cardCVC" class="col-md-3">
+                                        CVC
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                            id="cardCVC"
+                                            name="cardForm.cardCVC"
+                                            ng-model="card.cardCVC" 
+                                            class="form-control" 
+                                            placeholder="123">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="name" class="col-md-3">
+                                        Cardholder name
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="name" 
+                                                name="cardForm.name"  
+                                                ng-model="card.name" 
+                                                class="form-control"
+                                                placeholder="John Doe">
+                                    </div>
+                                </div>
+                            </div>
+    
+                            <div class="col-md-6">
+                                <div class="row form-group">
+                                    <label for="email" class="col-md-3">
+                                        Email
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                            id="email"
+                                            name="cardForm.email"
+                                            ng-model="card.email" 
+                                            class="form-control" 
+                                            placeholder="test@test.com">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="phone" class="col-md-3">
+                                        Phone number
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                            id="phone"
+                                            name="cardForm.phone"
+                                            ng-model="card.phone" 
+                                            class="form-control" 
+                                            placeholder="+1-541-754-3010">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="cardCountry" class="col-md-3">
+                                        Address country
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="cardCountry" 
+                                                name="cardForm.country"  
+                                                ng-model="card.source.address_country" 
+                                                class="form-control"
+                                                placeholder="USA">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="cardCity" class="col-md-3">
+                                        Address city
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="cardCity" 
+                                                name="cardForm.cardYear"  
+                                                ng-model="card.source.address_city" 
+                                                class="form-control"
+                                                placeholder="New-York">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label for="cardZip" class="col-md-3">
+                                        ZIP or postal code
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" 
+                                                id="cardZip" 
+                                                name="cardForm.cardYear"  
+                                                ng-model="card.source.address_zip" 
+                                                class="form-control"
+                                                placeholder="10001">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardMonth" class="col-md-3">
-                            Expiration month
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardMonth" 
-                                    name="cardForm.cardMonth"  
-                                    ng-model="card.cardMonth" 
-                                    class="form-control"
-                                    placeholder="12">
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-2 col-md-offset-5">
+                                <button type="submit" class="btn btn-primary" ng-disabled="runProcess">Add card</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardYear" class="col-md-3">
-                            Expiration year
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardYear"
-                                    name="cardForm.cardYear" 
-                                    ng-model="card.cardYear" 
-                                    class="form-control" 
-                                    placeholder="2020">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardCVC" class="col-md-3">
-                            CVC
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                id="cardCVC"
-                                name="cardForm.cardCVC"
-                                ng-model="card.cardCVC" 
-                                class="form-control" 
-                                placeholder="123">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="name" class="col-md-3">
-                            Cardholder name
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="name" 
-                                    name="cardForm.name"  
-                                    ng-model="card.name" 
-                                    class="form-control"
-                                    placeholder="John Doe">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="email" class="col-md-3">
-                            Email
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                id="email"
-                                name="cardForm.email"
-                                ng-model="card.email" 
-                                class="form-control" 
-                                placeholder="test@test.com">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="phone" class="col-md-3">
-                            Phone number
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                id="phone"
-                                name="cardForm.phone"
-                                ng-model="card.phone" 
-                                class="form-control" 
-                                placeholder="+1-541-754-3010">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardCountry" class="col-md-3">
-                            Address country
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardCountry" 
-                                    name="cardForm.country"  
-                                    ng-model="card.source.address_country" 
-                                    class="form-control"
-                                    placeholder="USA">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardCity" class="col-md-3">
-                            Address city
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardCity" 
-                                    name="cardForm.cardYear"  
-                                    ng-model="card.source.address_city" 
-                                    class="form-control"
-                                    placeholder="New-York">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardZip" class="col-md-3">
-                            ZIP or postal code
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardZip" 
-                                    name="cardForm.cardYear"  
-                                    ng-model="card.source.address_zip" 
-                                    class="form-control"
-                                    placeholder="10001">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-5 col-md-offset-4">
-                            <button type="submit" class="btn btn-primary" ng-disabled="runProcess">Add card</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </section>
 
 
-            <section class="panel panel-default col-md-5" style="padding: 0px;" ng-if="customer && showView">
+            <section class="panel panel-default col-md-12" style="padding: 0px;" ng-if="customer && showView">
                 <div class="panel-heading">
                     <strong>Card details</strong>
                 </div>
     
-                <form class="panel-body" 
+                <form class="panel-body row" 
                         name="cardUpdateForm"
                         novalidate
                         autocomplete="off"
                         ng-submit="updateCard()">
-                    <div class="form-group">
-                        <div class="row">
-                            <label class="col-md-3">Card number</label>
-                            <p class="col-md-9">**** **** **** {{customer.sources.data[0].last4}}</p>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <label class="col-md-3">Card number</label>
+                                <p class="col-md-9">**** **** **** {{customer.sources.data[0].last4}}</p>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-md-3">Brand</label>
+                                <p class="col-md-9">{{ customer.sources.data[0].brand }}</p>
+                            </div>
+                            <div class="row form-group" ng-if="customer.description">
+                                <label class="col-md-3">Description</label>
+                                <p class="col-md-9">{{ customer.description }}</p>
+                            </div>
+                            <div class="row form-group">
+                                <label for="cardMonth" class="col-md-3">
+                                    Expiration month
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="cardMonth" 
+                                            name="cardUpdateForm.cardMonth"  
+                                            ng-model="customer.sources.data[0].exp_month" 
+                                            class="form-control"
+                                            placeholder="12">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="cardYear" class="col-md-3">
+                                    Expiration year
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="cardYear" 
+                                            name="cardUpdateForm.cardYear"  
+                                            ng-model="customer.sources.data[0].exp_year" 
+                                            class="form-control"
+                                            placeholder="2020">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="name" class="col-md-3">
+                                    Cardholder name
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="name" 
+                                            name="cardUpdateForm.name"  
+                                            ng-model="customer.metadata.name" 
+                                            class="form-control"
+                                            placeholder="John Doe">
+                                </div>
+                            </div>
                         </div>
-                        <div class="row">
-                            <label class="col-md-3">Brand</label>
-                            <p class="col-md-9">{{ customer.sources.data[0].brand }}</p>
+
+                        <div class="col-md-6">
+
+                            <div class="row form-group">
+                                <label for="email" class="col-md-3">
+                                    Email
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="email" 
+                                            name="cardUpdateForm.email"  
+                                            ng-model="customer.email" 
+                                            class="form-control"
+                                            placeholder="test@test.com">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="phone" class="col-md-3">
+                                    Phone number
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="phone" 
+                                            name="cardUpdateForm.phone"  
+                                            ng-model="customer.metadata.phone" 
+                                            class="form-control"
+                                            placeholder="+1-541-754-3010">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="cardCountry" class="col-md-3">
+                                    Address country
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="cardCountry" 
+                                            name="cardUpdateForm.country"  
+                                            ng-model="customer.metadata.address_country" 
+                                            class="form-control"
+                                            placeholder="USA">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="cardCity" class="col-md-3">
+                                    Address city
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="cardCity" 
+                                            name="cardUpdateForm.cardYear"  
+                                            ng-model="customer.metadata.address_city" 
+                                            class="form-control"
+                                            placeholder="New-York">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="cardZip" class="col-md-3">
+                                    ZIP or postal code
+                                </label>
+                                <div class="col-md-5">
+                                    <input type="text" 
+                                            id="cardZip" 
+                                            name="cardUpdateForm.cardYear"  
+                                            ng-model="customer.metadata.address_zip" 
+                                            class="form-control"
+                                            placeholder="10001">
+                                </div>
+                            </div>
                         </div>
-                        <div class="row" ng-if="customer.description">
-                            <label class="col-md-3">Description</label>
-                            <p class="col-md-9">{{ customer.description }}</p>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardMonth" class="col-md-3">
-                            Expiration month
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardMonth" 
-                                    name="cardUpdateForm.cardMonth"  
-                                    ng-model="customer.sources.data[0].exp_month" 
-                                    class="form-control"
-                                    placeholder="12">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardYear" class="col-md-3">
-                            Expiration year
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardYear" 
-                                    name="cardUpdateForm.cardYear"  
-                                    ng-model="customer.sources.data[0].exp_year" 
-                                    class="form-control"
-                                    placeholder="2020">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="name" class="col-md-3">
-                            Cardholder name
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="name" 
-                                    name="cardUpdateForm.name"  
-                                    ng-model="customer.metadata.name" 
-                                    class="form-control"
-                                    placeholder="John Doe">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="email" class="col-md-3">
-                            Email
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="email" 
-                                    name="cardUpdateForm.email"  
-                                    ng-model="customer.email" 
-                                    class="form-control"
-                                    placeholder="test@test.com">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="phone" class="col-md-3">
-                            Phone number
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="phone" 
-                                    name="cardUpdateForm.phone"  
-                                    ng-model="customer.metadata.phone" 
-                                    class="form-control"
-                                    placeholder="+1-541-754-3010">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardCountry" class="col-md-3">
-                            Address country
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardCountry" 
-                                    name="cardUpdateForm.country"  
-                                    ng-model="customer.metadata.address_country" 
-                                    class="form-control"
-                                    placeholder="USA">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardCity" class="col-md-3">
-                            Address city
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardCity" 
-                                    name="cardUpdateForm.cardYear"  
-                                    ng-model="customer.metadata.address_city" 
-                                    class="form-control"
-                                    placeholder="New-York">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <label for="cardZip" class="col-md-3">
-                            ZIP or postal code
-                        </label>
-                        <div class="col-md-5">
-                            <input type="text" 
-                                    id="cardZip" 
-                                    name="cardUpdateForm.cardYear"  
-                                    ng-model="customer.metadata.address_zip" 
-                                    class="form-control"
-                                    placeholder="10001">
-                        </div>
-                    </div>
                     <hr>
                     <div class="row">
-                        <div class="col-md-4 col-md-offset-2">
+                        <div class="col-md-3 col-md-offset-3">
                             <button type="submit" class="btn btn-primary" ng-disabled="runProcess">Update card</button>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 ">
                             <button type="button" class="btn btn-danger" ng-disabled="runProcess" ng-click="removeCard()">Remove card</button>
                         </div>
                     </div>

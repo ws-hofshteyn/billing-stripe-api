@@ -4,29 +4,32 @@ app.controller('SubscriptionsCtrl', ['$scope', '$route', 'BillingServices', 'Sub
     
     $scope.customer = null;
     $scope.plan = null;
+    $scope.subscriptions = null;
     $scope.showView = false;
     $scope.runProcess = false;
     
     function activate() {
 
         BillingServices.getInfo().$promise.then(function (customer) {
-            console.log('customer', customer);
             $scope.customer = customer;
+            if (!$scope.customer.message) {
+
+                SubscriptionsServices.getPlan().$promise.then(function (plan) {
+                    $scope.plan = plan;
+                })
+            }
+		    $scope.showView = true;
+            
         })
 
-        SubscriptionsServices.getPlan().$promise.then(function (plan) {
-            console.log('plan', plan);
-            $scope.plan = plan;
-        })
         
-		$scope.showView = true;
     }
     activate();
     
     $scope.subscribePlan = function (planId) {
-        console.log('planId', planId);
+        $scope.runProcess = true;
         SubscriptionsServices.subscribePlan({'id': planId}).$promise.then(function (sub) {
-            console.log('sub', sub);
+            $route.reload();
         })
     }
 

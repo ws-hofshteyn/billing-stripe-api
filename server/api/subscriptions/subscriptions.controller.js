@@ -36,28 +36,34 @@ exports.getPlans = function ( req, res ) {
 
 exports.subscribePlan = function ( req, res ) {
     console.log('req.params', req.params);
-    // AccountSchema.find({ name : 'Simba'}, function (err, user) {
-    //     if (err) {
-    //         console.log('err', err);
-    //         res.status(400).send({message: err.message});
-    //     } else {
-    //         if (user[0] && user[0].billing && user[0].billing.accountId) {
+    AccountSchema.find({ name : 'Simba'}, function (err, user) {
+        if (err) {
+            console.log('err', err);
+            res.status(400).send({message: err.message});
+        } else {
+            if (user[0] && user[0].billing && user[0].billing.accountId) {
 
-    //             var cunstomerId = user[0].billing.accountId;
+                var cunstomerId = user[0].billing.accountId;
 
-    //             stripe.plans.retrieve(
-    //                 'plan_CzbqQlMsomhyjS',
-    //                 function (_err, plan) {
-    //                     if (_err) {
-    //                         console.log(_err, err);
-    //                         res.status(400).send({message: _err.message});
-    //                     } else {
-    //                         res.status(200).send(plan);
-    //                     }
-    //                 }
-    //             )
-    //         }
-    //     }
-    // })
+                stripe.subscriptions.create(
+                    {
+                        customer: cunstomerId,
+                        items: [
+                            {
+                                plan: req.params.id,
+                            },
+                        ]
+                    }, function(_err, subscription) {
+                        if (_err) {
+                            console.log('_err', _err);
+                            res.status(400).send({message: _err.message});
+                        } else {
+                            res.status(200).send(subscription);
+                        }
+                    }
+                );
+            }
+        }
+    })
 };
 
