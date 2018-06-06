@@ -36,7 +36,7 @@ app.controller('BillingCtrl', ['BillingServices', '$scope', '$route', function(B
 		})
 	}
 
-	//activate();
+	activate();
 
     $scope.addCard = function (form) {
 		

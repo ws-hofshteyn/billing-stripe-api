@@ -55,15 +55,20 @@ exports.getSingleCustomer = function ( req, res ) {
 	// //
 
 	console.log('req.user', req.user.accountId);
-	AccountSchema.findOne({ _id : req.user.accountId }, function (err, account) {
-		console.log(err, account);
+	AccountSchema.find({ _id : req.user.accountId }, function (err, account) {
+
 		if(err) return res.status(400).send({message: err.message});
-		if (account && account.billing && account.billing.accountId) {
+		if (account[0] && account[0].billing && account[0].billing.accountId) {
 			stripe.customers.retrieve(
-				account.billing.accountId,
+				account[0].billing.accountId,
 				function(_err, customer) {
-					if (_err) res.status(400).send({message: _err.message});
-					res.status(200).send(customer);
+					if (_err)  {
+						console.log('_err:', _err);
+						res.status(400).send({message: _err.message});
+					} else {
+						console.log('customer', customer);
+						res.status(200).send(customer);
+					}
 				}
 			);
 		} else {
