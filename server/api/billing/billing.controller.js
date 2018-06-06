@@ -54,23 +54,22 @@ exports.getSingleCustomer = function ( req, res ) {
 	// var user = req.user; // the user.accountId is the id of the account where we store the stripe customer id
 	// //
 
-	console.log('req.user', req.user);
-
-	AccountSchema.find({ name : 'Simba' }, function (err, user) {
-
-		if (!err && user[0].billing.accountId) {
+	console.log('req.user', req.user.accountId);
+	AccountSchema.findOne({ _id : req.user.accountId }, function (err, account) {
+		console.log(err, account);
+		if(err) return res.status(400).send({message: err.message});
+		if (account && account.billing && account.billing.accountId) {
 			stripe.customers.retrieve(
-				user[0].billing.accountId,
+				account.billing.accountId,
 				function(_err, customer) {
 					if (_err) res.status(400).send({message: _err.message});
 					res.status(200).send(customer);
 				}
 			);
-		} else if (!err && !user[0].billing.accountId) {
-			res.status(200).send({message: 'none'}); 
 		} else {
-			res.status(400).send({message: err.message});
-		}
+			res.status(200).send({message: 'none'}); 
+		} 
+
 	})
 
 };
@@ -101,7 +100,7 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 	    }, function(err, customer) {
 			if (err) res.status(400).send(err);
 			else {
-				AccountSchema.findOneAndUpdate({name: 'Simba'}, { $set: {'billing.accountId' : customer.id } }, { new: true }, function (_err, user) {
+				AccountSchema.findOneAndUpdate({_id : req.user.accountId}, { $set: {'billing.accountId' : customer.id } }, { new: true }, function (_err, user) {
 					if (_err) console.log('Error:', _err);
 					else res.status(201).send(customer);
 				});
@@ -118,7 +117,7 @@ exports.removeCard = function( req, res ) {
 		function(err, confirmation) {
 			if (err) res.status(400).send(err);
 			else {
-				AccountSchema.findOneAndUpdate({name: 'Simba'}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
+				AccountSchema.findOneAndUpdate({_id : req.user.accountId}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
 					if (_err) res.status(400).send(_err);
 					else res.status(200).send({message: 'done'});
 				});
@@ -150,14 +149,14 @@ exports.createSubscription = function (req, res) {
 		}
 	  );
 }
-
+/*
 function createDefaultAcc () {
-	AccountSchema.find({ name : 'Simba' }, function (err, user) {
+	AccountSchema.find({ _id : req.user.accountId }, function (err, user) {
 		if (err) {
 			console.log('err', err);
 		} if (user && !user.length) {
 
-			AccountSchema.create({ name : 'Simba' }, function (error, created_user) {
+			AccountSchema.create({ _id : req.user.accountId }, function (error, created_user) {
 				if (error) console.log('error', error);
 				else console.log('Default User created');
 			})
@@ -169,3 +168,4 @@ function createDefaultAcc () {
 }
 
 createDefaultAcc();
+*/
