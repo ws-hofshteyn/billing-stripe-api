@@ -1,10 +1,55 @@
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <h3>Subscriptions</h3>
-        <div class="row" ng-if="!customer && showView">
-            <h4 class="text-center">
-                There are no subscriptions yet. Add credit card at tab billing.
+        <div class="row" ng-if="!customer && !plan && showView">
+            <h4>
+                There are no subscriptions yet. 
             </h4>
+        </div>
+        <div class="row" ng-if="customer && !customer.subscriptions.data.length && plan && showView">
+            <h4>
+                There are no subscriptions yet. Choose a plan.
+            </h4>
+            <section class="panel panel-default col-md-5" style="padding: 0px;">
+                
+                <div class="panel-heading">
+                    <strong>Plan details</strong>
+                </div>
+
+                <div class="pandel-body" style="padding: 15px;">
+
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-md-3">Plan name</label>
+                            <div class="col-md-9">
+                                {{plan.nickname}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-md-3">Amount</label>
+                            <div class="col-md-9">
+                                {{plan.amount/100}} per {{plan.interval_count}} {{plan.interval}} 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-md-3">Currency</label>
+                            <div class="col-md-9">
+                                {{plan.currency}}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-5 col-md-offset-4"> 
+                            <button class="btn btn-primary" ng-click="subscribePlan(plan.id)">Subscribe</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </div>
