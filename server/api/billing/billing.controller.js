@@ -109,7 +109,7 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 	    }, function(err, customer) {
 			if (err) res.status(400).send(err);
 			else {
-				AccountSchema.findOneAndUpdate({_id : req.user.accountId}, { $set: {'billing.accountId' : customer.id } }, { new: true }, function (_err, user) {
+				AccountSchema.findOneAndUpdate({ _id : req.user.accountId }, { $set: {'billing.accountId' : customer.id } }, { new: true }, function (_err, user) {
 					if (_err) console.log('Error:', _err);
 					else res.status(201).send(customer);
 				});
@@ -196,14 +196,14 @@ exports.createSubscription = function (req, res) {
 		}
 	  );
 }
-/*
+
 function createDefaultAcc () {
-	AccountSchema.find({ _id : req.user.accountId }, function (err, user) {
+	AccountSchema.find({ name : 'Simba'}, function (err, user) {
 		if (err) {
 			console.log('err', err);
 		} if (user && !user.length) {
 
-			AccountSchema.create({ _id : req.user.accountId }, function (error, created_user) {
+			AccountSchema.create({ name: 'Simba' }, function (error, created_user) {
 				if (error) console.log('error', error);
 				else console.log('Default User created');
 			})
@@ -215,4 +215,4 @@ function createDefaultAcc () {
 }
 
 createDefaultAcc();
-*/
+
