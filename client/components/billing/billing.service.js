@@ -14,6 +14,15 @@ app.factory('BillingServices', ['$resource', function ($resource) {
                 cache: false,
                 isArray: false
             },
+            addCard : {
+                method: "POST",
+                params: {
+                    cmd: "add-card"
+                },
+                cache: false,
+                isArray: false,
+                stripTrailingSlashes: false
+            },
             createBillingInfo : {
                 method: "POST",
                 params: {

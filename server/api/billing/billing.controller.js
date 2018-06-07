@@ -114,6 +114,50 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 	});
 };
 
+exports.addCard = function( req, res ) {
+
+	var card = req.body;
+	customerId = req.params.id;
+
+	stripe.tokens.create({
+	    card: {
+	        number			: card.cardNumber,
+	        exp_month		: card.cardMonth,
+	        exp_year		: card.cardYear,
+			cvc				: card.cardCVC,
+	    }
+	}, function (err, token) {
+		if (err) {
+			console.log('err', err);
+			res.status(400).send({ message: err.message });
+		} else {
+			console.log('token', token);
+		}
+		stripe.customers.createSource(
+			customerId, {
+				source: token.id
+			}, function (_err) {
+				if (err) {
+					console.log('_err', _err);
+					res.status(400).send({ message: _err.message });
+				} else {
+					res.status(200).send();
+				}
+			}
+		)
+	})
+
+	stripe.sources.create({
+		type: 'card',
+		currency: 'usd',
+		owner: {
+		  	email: 'jenny.rosen@example.com'
+		}
+	  }, function(err, source) {
+		// asynchronously called
+	  });
+};
+
 exports.removeCard = function( req, res ) {
 
 	stripe.customers.deleteCard(
@@ -122,10 +166,11 @@ exports.removeCard = function( req, res ) {
 		function(err, confirmation) {
 			if (err) res.status(400).send(err);
 			else {
-				AccountSchema.findOneAndUpdate({_id : req.user.accountId}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
-					if (_err) res.status(400).send(_err);
-					else res.status(200).send({message: 'done'});
-				});
+				// AccountSchema.findOneAndUpdate({_id : req.user.accountId}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
+				// 	if (_err) res.status(400).send(_err);
+				// 	else res.status(200).send({message: 'done'});
+				// });
+				res.status(200).send({message: 'done'});
 			}
 		}
 	);

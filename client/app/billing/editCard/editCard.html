@@ -1,0 +1,141 @@
+<br>
+<section class="panel panel-default col-md-12" style="padding: 0px;" ng-if="customer && showView">
+    <div class="panel-heading">
+        <strong>Card details</strong>
+    </div>
+
+    <form class="panel-body row" 
+            name="cardUpdateForm"
+            novalidate
+            autocomplete="off"
+            ng-submit="updateCard()">
+            <div class="col-md-6">
+                <div class="row form-group">
+                    <label class="col-md-3">Card number</label>
+                    <p class="col-md-9">**** **** **** {{customer.sources.data[0].last4}}</p>
+                </div>
+                <div class="row form-group">
+                    <label class="col-md-3">Brand</label>
+                    <p class="col-md-9">{{ customer.sources.data[0].brand }}</p>
+                </div>
+                <div class="row form-group" ng-if="customer.description">
+                    <label class="col-md-3">Description</label>
+                    <p class="col-md-9">{{ customer.description }}</p>
+                </div>
+                <div class="row form-group">
+                    <label for="cardMonth" class="col-md-3">
+                        Expiration month
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="cardMonth" 
+                                name="cardUpdateForm.cardMonth"  
+                                ng-model="customer.sources.data[0].exp_month" 
+                                class="form-control"
+                                placeholder="12">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="cardYear" class="col-md-3">
+                        Expiration year
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="cardYear" 
+                                name="cardUpdateForm.cardYear"  
+                                ng-model="customer.sources.data[0].exp_year" 
+                                class="form-control"
+                                placeholder="2020">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="name" class="col-md-3">
+                        Cardholder name
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="name" 
+                                name="cardUpdateForm.name"  
+                                ng-model="customer.metadata.name" 
+                                class="form-control"
+                                placeholder="John Doe">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="row form-group">
+                    <label for="email" class="col-md-3">
+                        Email
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="email" 
+                                name="cardUpdateForm.email"  
+                                ng-model="customer.email" 
+                                class="form-control"
+                                placeholder="test@test.com">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="phone" class="col-md-3">
+                        Phone number
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="phone" 
+                                name="cardUpdateForm.phone"  
+                                ng-model="customer.metadata.phone" 
+                                class="form-control"
+                                placeholder="+1-541-754-3010">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="cardCountry" class="col-md-3">
+                        Address country
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="cardCountry" 
+                                name="cardUpdateForm.country"  
+                                ng-model="customer.metadata.address_country" 
+                                class="form-control"
+                                placeholder="USA">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="cardCity" class="col-md-3">
+                        Address city
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="cardCity" 
+                                name="cardUpdateForm.cardYear"  
+                                ng-model="customer.metadata.address_city" 
+                                class="form-control"
+                                placeholder="New-York">
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <label for="cardZip" class="col-md-3">
+                        ZIP or postal code
+                    </label>
+                    <div class="col-md-5">
+                        <input type="text" 
+                                id="cardZip" 
+                                name="cardUpdateForm.cardYear"  
+                                ng-model="customer.metadata.address_zip" 
+                                class="form-control"
+                                placeholder="10001">
+                    </div>
+                </div>
+            </div>
+        <hr>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <button type="submit" class="btn btn-primary" ng-disabled="runProcess">Update card</button>
+            </div>
+        </div>
+    </form>
+</section>
