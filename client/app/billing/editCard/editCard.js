@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('EditCardCtrl', ['BillingServices', '$scope', '$route', function(BillingServices, $scope, $route) {
+app.controller('EditCardCtrl', ['BillingServices', '$scope', '$location', function(BillingServices, $scope, $location) {
 
 	$scope.showView = false;
 	$scope.runProcess = false;
@@ -24,11 +24,10 @@ app.controller('EditCardCtrl', ['BillingServices', '$scope', '$route', function(
 
 	$scope.updateCard = function () {
 		$scope.runProcess = true;
-		console.log('$scope.customer', $scope.customer);
 		BillingServices.updateCard($scope.customer).$promise.then(function(customer) {
-			console.log('customer', customer);
 			$scope.customer = customer;
-			$scope.runProcess = false;
+            $scope.runProcess = false;
+            $location.path("/");
 		})
 	}
 

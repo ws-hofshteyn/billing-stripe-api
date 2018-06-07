@@ -138,19 +138,19 @@ exports.addCard = function( req, res ) {
 			res.status(400).send({ message: err.message });
 		} else {
 			console.log('token', token);
-		}
-		stripe.customers.createSource(
-			customerId, {
-				source: token.id
-			}, function (_err) {
-				if (err) {
-					console.log('_err', _err);
-					res.status(400).send({ message: _err.message });
-				} else {
-					res.status(200).send();
+			stripe.customers.createSource(
+				customerId, {
+					source: token.id
+				}, function (_err) {
+					if (err) {
+						console.log('_err', _err);
+						res.status(400).send({ message: _err.message });
+					} else {
+						res.status(200).send();
+					}
 				}
-			}
-		)
+			)
+		}
 	})
 };
 
