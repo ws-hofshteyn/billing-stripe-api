@@ -9,9 +9,6 @@ var AccountSchema = require('./../account/account.model');
 
 exports.updateCard = function ( req, res ){
 	
-
-	console.log('\n req.body \n', req.body);
-	
 	stripe.customers.updateCard(
 		req.body.id,
 		req.body.sources.data[0].id,
@@ -57,16 +54,19 @@ exports.getSingleCustomer = function ( req, res ) {
 	console.log('req.user', req.user.accountId);
 	AccountSchema.find({ _id : req.user.accountId }, function (err, account) {
 
-		if(err) return res.status(400).send({message: err.message});
-		if (account[0] && account[0].billing && account[0].billing.accountId) {
+		if (err) {
+
+			console.log('DB ERROR:', err);
+			res.status(400).send({ message: err.message });
+
+		} else if (account[0] && account[0].billing && account[0].billing.accountId) {
 			stripe.customers.retrieve(
 				account[0].billing.accountId,
 				function(_err, customer) {
 					if (_err)  {
-						console.log('_err:', _err);
+						console.log('STRIPE _err:', _err);
 						res.status(400).send({message: _err.message});
 					} else {
-						console.log('customer', customer);
 						res.status(200).send(customer);
 					}
 				}
