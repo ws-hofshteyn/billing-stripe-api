@@ -9,7 +9,9 @@ var AccountSchema = require('./../account/account.model');
 
 exports.getPlans = function ( req, res ) {
 
-    AccountSchema.find({ name : 'Simba'}, function (err, user) {
+    console.log('\n reached function #getPlans \n');
+
+    AccountSchema.find({ _id : req.user.accountId }, function (err, user) {
         if (err) {
             console.log('err', err);
             res.status(400).send({message: err.message});
@@ -35,8 +37,10 @@ exports.getPlans = function ( req, res ) {
 };
 
 exports.subscribePlan = function ( req, res ) {
-    console.log('req.params', req.params);
-    AccountSchema.find({ name : 'Simba'}, function (err, user) {
+
+    console.log('\n reached function #subscribePlan \n');
+
+    AccountSchema.find({ _id : req.user.accountId }, function (err, user) {
         if (err) {
             console.log('err', err);
             res.status(400).send({message: err.message});

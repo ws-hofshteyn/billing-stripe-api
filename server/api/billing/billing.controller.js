@@ -8,6 +8,8 @@ var stripe = require('stripe')(config.stripe_key);
 var AccountSchema = require('./../account/account.model');
 
 exports.updateCard = function ( req, res ){
+
+	console.log('\n reached function #updateCard \n');
 	
 	stripe.customers.updateCard(
 		req.body.id,
@@ -47,11 +49,12 @@ exports.updateCard = function ( req, res ){
 
 };
 exports.getSingleCustomer = function ( req, res ) {
+	console.log('\n reached function #getSingleCustomer \n');
 	// body...
 	// var user = req.user; // the user.accountId is the id of the account where we store the stripe customer id
 	// //
 
-	console.log('req.user', req.user.accountId);
+	console.log('\n req.user', req.user.accountId);
 	AccountSchema.find({ _id : req.user.accountId }, function (err, account) {
 
 		if (err) {
@@ -80,7 +83,8 @@ exports.getSingleCustomer = function ( req, res ) {
 };
 
 exports.createTokenAndCustomerWithCard = function( req, res ) {
-	// TODO: get the  stripe id from server/config/environment file like config.stripe; everywhere.
+
+	console.log('\n reached function #createTokenAndCustomerWithCard \n');
 
 	var card = req.body;
 
@@ -116,6 +120,8 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 
 exports.addCard = function( req, res ) {
 
+	console.log('\n reached function #addCard \n');
+
 	var card = req.body;
 	customerId = req.params.id;
 
@@ -146,30 +152,20 @@ exports.addCard = function( req, res ) {
 			}
 		)
 	})
-
-	stripe.sources.create({
-		type: 'card',
-		currency: 'usd',
-		owner: {
-		  	email: 'jenny.rosen@example.com'
-		}
-	  }, function(err, source) {
-		// asynchronously called
-	  });
 };
 
 exports.removeCard = function( req, res ) {
+
+	console.log('\n reached function #removeCard \n');
 
 	stripe.customers.deleteCard(
 		req.params.id,
 		req.params.source,
 		function(err, confirmation) {
-			if (err) res.status(400).send(err);
-			else {
-				// AccountSchema.findOneAndUpdate({_id : req.user.accountId}, { $set: {'billing.accountId' : null } }, { new: true }, function (_err, user) {
-				// 	if (_err) res.status(400).send(_err);
-				// 	else res.status(200).send({message: 'done'});
-				// });
+			if (err) {
+				console.log('err', err);
+				res.status(400).send(err);
+			} else {
 				res.status(200).send({message: 'done'});
 			}
 		}
@@ -187,6 +183,7 @@ exports.listAllCustomers = function( req, res ) {
 
 exports.createSubscription = function (req, res) {
 	
+	console.log('\n reached function #createSubscription \n');
 
 	stripe.subscriptions.create({
 		customer: req.params.id,
