@@ -96,6 +96,10 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 			cvc				: card.cardCVC,
 	    }
 	}, function(err, token) {
+		if (err) {
+			console.log(err);
+			return res.status(400).send(err);
+		}
 	    stripe.customers.create({
 			source: token.id, // obtained with Stripe.js
 			email: card.email,
@@ -107,7 +111,10 @@ exports.createTokenAndCustomerWithCard = function( req, res ) {
 				address_zip: card.source.address_zip
 			}
 	    }, function(err, customer) {
-			if (err) res.status(400).send(err);
+			if (err) {
+				console.log(err);
+				return res.status(400).send(err);
+			}
 			else {
 				AccountSchema.findOneAndUpdate({ _id : req.user.accountId }, { $set: {'billing.accountId' : customer.id } }, { new: true }, function (_err, user) {
 					if (_err) console.log('Error:', _err);
