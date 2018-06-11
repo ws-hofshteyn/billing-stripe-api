@@ -14,8 +14,9 @@ app.controller('SubscriptionsCtrl', ['$scope', '$route', 'BillingServices', 'Sub
             $scope.customer = customer;
             if (!$scope.customer.message) {
 
-                SubscriptionsServices.getPlan().$promise.then(function (plan) {
-                    $scope.plan = plan;
+                SubscriptionsServices.getSubscriptions().$promise.then(function (subscriptions) {
+                    $scope.plan = subscriptions.data[0].plan;
+                    console.log(subscriptions)
                 })
             }
 		    $scope.showView = true;

@@ -6,7 +6,7 @@ app.factory('SubscriptionsServices', ['$resource', function ($resource) {
             cmd: "@cmd"
         },
         {
-            getPlan : {
+            getSubscriptions : {
                 method: "GET",
                 params: {
                     cmd: "get-subscriptions"

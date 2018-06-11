@@ -7,6 +7,37 @@ var stripe = require('stripe')(config.stripe_key);
 
 var AccountSchema = require('./../account/account.model');
 
+
+exports.getSubscriptions = function ( req, res ) {
+
+    console.log('\n reached function #getPlans \n');
+
+    AccountSchema.find({ _id : req.user.accountId }, function (err, user) {
+        if (err) {
+            console.log('err', err);
+            res.status(400).send({message: err.message});
+        } else {
+            if (user[0] && user[0].billing && user[0].billing.accountId) {
+
+                var customerId = user[0].billing.accountId;
+
+                stripe.subscriptions.list(
+                    {customer: customerId},
+                    function (_err, subscriptions) {
+                        if (_err) {
+                            console.log(_err, err);
+                            res.status(400).send({message: _err.message});
+                        } else {
+                            res.status(200).send(subscriptions);
+                        }
+                    }
+                )
+            }
+        }
+    })
+};
+
+
 exports.getPlans = function ( req, res ) {
 
     console.log('\n reached function #getPlans \n');

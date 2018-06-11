@@ -7,7 +7,7 @@ var auth = require('../../auth/auth.service');
 
 var router = express.Router();
 
-    router.get('/get-subscriptions', auth.isAuthenticated(), SubController.getPlans );
+    router.get('/get-subscriptions', auth.isAuthenticated(), SubController.getSubscriptions );
     router.get('/subscribe-plan/:id', auth.isAuthenticated(), SubController.subscribePlan );
 
 module.exports = router;

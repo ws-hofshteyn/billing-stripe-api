@@ -3,8 +3,8 @@ var ObjectID = require('mongodb').ObjectID;
 function isAuthenticated() {
 	console.log("isAuthenticated called!!!");
 	return function(req, res, next) {
-		req.user = {accountId: ObjectID('5b1914dfef03e51fd0092418')}; //loai
-		//req.user = {accountId: ObjectID('5b1911bf0bb64a96e2858cbb')};
+		//req.user = {accountId: ObjectID('5b1914dfef03e51fd0092418')}; //loai
+		req.user = {accountId: ObjectID('5b17bf613378810510d2dbb4')}; //  5b1911bf0bb64a96e2858cbb
 		next();
 	}
 };

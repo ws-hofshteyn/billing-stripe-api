@@ -24,7 +24,7 @@ module.exports = function(app) {
       //console.log('subdomain: %s', req.headers['x-subdomain']);
       // /Users/fabriziomiglior/Development/billing-stripe-api/
       //res.sendFile( __dirname +'/../client/index.html');//
-      res.sendFile( '/Users/fabriziomiglior/Development/billing-stripe-api/client/index.html');//
+      res.sendfile( '/Users/fabriziomiglior/Development/billing-stripe-api/client/index.html');//
     });
 
 };
